@@ -21,6 +21,7 @@ player = pygame.Rect((300, 250, 50, 50)) # this make a invisble player
 ground = pygame.draw.rect(screen, (0,0,0), (0,550,800,100))
 
 platform = pygame.draw.rect(screen, ((75,0,130)), (500,500, 100,20))
+platform2 = pygame.draw.rect(screen, ((105,0,140)), (400,400, 100,20) )
 
 # Gravity variables
 gravity = 2
@@ -34,10 +35,10 @@ while run:  # Runs the game
     
     pygame.draw.rect(screen, (0,0,0), ground) # draws the rectangle
     pygame.draw.rect(screen, (0,0,0), platform) # draws the platform
-
+    pygame.draw.rect(screen, (0,0,0), platform2)
 
      # adds  collision to the ground  and the platfrom
-    if not player.colliderect(ground) and not player.colliderect(platform): 
+    if not player.colliderect(ground) and not player.colliderect(platform) and not player.colliderect(platform2): 
         player.move_ip(0, gravity)  # Apply gravity by moving player down
     else:
         velocity_y = 0  # Stop falling when on the ground
@@ -67,5 +68,6 @@ while run:  # Runs the game
             run = False
 
     pygame.display.update()  # Update the display if not the red dot dont appear
+    
 
 pygame.quit()
