@@ -37,6 +37,6 @@ class Player:
         for platform in platforms:
 
             if self.rect.colliderect(platform.rect) and self.velocity_y >= 0: # this rect is what player image is on so rect is basically the player
-                self.rect.bottom = platform.rect.top # gets the  player to the top of the platform
+                self.rect.bottom = platform.rect.top# gets the  player to the top of the platform
                 self.velocity_y = 0  # resets the velicity so you can jump again 
                 self.on_ground = True # makes the player as on ground 
