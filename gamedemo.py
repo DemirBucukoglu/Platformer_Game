@@ -30,7 +30,7 @@ while run:
 
     keys = pygame.key.get_pressed()
     player.move(keys) #  player moves w the keys when pressed and the get_pressed func  registeres what keys are pressed
-
+    player.check_collision(platforms)
 
     screen.fill((100, 149, 237)) #  fill  screen w blue
 
