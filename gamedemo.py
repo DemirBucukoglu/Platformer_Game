@@ -6,12 +6,7 @@ from  sys import exit
 
 pygame.init()
 
-platforms = [
-    Platform(200, 500, 400, 20),
-    Platform(100, 400, 200, 20),
-    Platform(500, 300, 150, 20),
-    Platform(0, 580, 2000, 20),  # Extend ground platform for scrolling
-]
+
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -20,9 +15,28 @@ pygame.display.set_caption("Me vs Profs")
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes the screen for pygame
 clock = pygame.time.Clock() # sets the fps
 
+platimg = r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\platforms.png"
+platforms = [
+    # x, y, width, height, image_path
+    Platform(200, 500, 150, 20, platimg),
+    Platform(100, 400, 150, 20, platimg ),
+    Platform(500, 300, 150, 20, platimg),
 
-player = Player(400,300, r"C:\Users\demir\Downloads\New Piskel-1.png.png") #  makes us a player to play w
-camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT)
+    # ground platforms
+    Platform(-300, 580, 150, 20, platimg),
+    Platform(-150, 580, 150, 20, platimg),
+    Platform(0, 580, 150, 20, platimg),  # Extend ground platform for scrolling
+    Platform(150, 580, 150, 20, platimg),
+    Platform(300, 580, 150, 20, platimg),
+    Platform(450, 580, 150, 20, platimg),
+    Platform(600, 580, 150, 20, platimg),
+    Platform(750, 580, 150, 20, platimg),
+    Platform(900, 580, 150, 20, platimg),
+    Platform(1050, 580, 150, 20, platimg),
+]
+
+player = Player(0,350, r"C:\Users\demir\Downloads\New Piskel-1.png.png") #  makes us a player to play w
+camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT) # puts the camera on the player adjusts it based on the player movement
 
 run = True
 while run:
@@ -42,13 +56,15 @@ while run:
 
 
     for platform in platforms:
-        adjusted_rect = camera.apply(platform.rect)
-        pygame.draw.rect(screen, (222, 49, 99), adjusted_rect)
+        platform.draw(screen, camera)
 
-    adjusted_player_rect = camera.apply(player.rect)
-    screen.blit(player.image, adjusted_player_rect)
+    # DRAWS THE PLAYER 
+    adjusted_player_rect = camera.apply(player.rect) # adjusts the rectangle to camera ofseett
+    screen.blit(player.image, adjusted_player_rect) # draws the image on the screen to the camere ofsett position  DRAWA THE PLAYER BASICALLy
+
+    pygame.draw.rect(screen, ((255, 0, 0)), adjusted_player_rect, 1) # hitbox for  player
     
-    
+
 
     pygame.display.update() # displays the things updates
     clock.tick(60)
