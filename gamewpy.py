@@ -58,7 +58,7 @@ while run:  # Runs the game
         is_jumping = True
         # Apply jumping mechanics
     player.move_ip(0, velocity_y)
-    velocity_y += 1  # Simulate gravity pull after jump
+    velocity_y += 2  # Simulate gravity pull after jump
 
 
     #runs  the whole thing
