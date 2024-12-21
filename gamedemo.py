@@ -2,6 +2,7 @@ import pygame
 from playerclass import Player
 from platformclass import Platform
 from cameraclass import Camera
+from enemyclass import Enemy
 from  sys import exit
 
 pygame.init()
@@ -35,6 +36,11 @@ platforms = [
     Platform(1050, 580, 150, 20, platimg),
 ]
 
+enemies = [
+    Enemy(400, 500, r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+    Enemy(600, 500, r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+]
+
 player = Player(0,350, r"C:\Users\demir\Downloads\New Piskel-1.png.png") #  makes us a player to play w
 camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT) # puts the camera on the player adjusts it based on the player movement
 
@@ -49,7 +55,7 @@ while run:
 
     keys = pygame.key.get_pressed()
     player.move(keys) #  player moves w the keys when pressed and the get_pressed func  registeres what keys are pressed
-    player.check_collision(platforms)
+    player.check_collision(platforms, enemies)
     camera.update(player)
     
     screen.fill((100, 149, 237)) #  fill  screen w blue
@@ -58,11 +64,15 @@ while run:
     for platform in platforms:
         platform.draw(screen, camera)
 
+    for enemy in enemies:
+        enemy.draw(screen, camera)
+        enemy.movement()
+
     # DRAWS THE PLAYER 
     adjusted_player_rect = camera.apply(player.rect) # adjusts the rectangle to camera ofseett
     screen.blit(player.image, adjusted_player_rect) # draws the image on the screen to the camere ofsett position  DRAWA THE PLAYER BASICALLy
 
-    pygame.draw.rect(screen, ((255, 0, 0)), adjusted_player_rect, 1) # hitbox for  player
+    pygame.draw.rect(screen, ((255, 0, 0)), adjusted_player_rect, 1) # hitbox for  
     
 
 
