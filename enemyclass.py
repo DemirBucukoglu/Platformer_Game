@@ -12,7 +12,7 @@ class Enemy:
         self.rect.x = x  # Set the x-coordinate 
         self.rect.y = y - 20  # Set the y-coordinate where enemy gonna appear
         self.health = health
-        self.healthbar = pygame.Rect(self.rect.x, self.rect.y, 100, 200)
+        self.healthbar = pygame.Rect(self.rect.x, self.rect.y, 100, 200) # draws the  healthbar
 
         self.speed = 2
         self.direction = 1 # 1 move right -1 left
@@ -57,11 +57,11 @@ class Enemy:
         screen.blit(self.image, adjusted_enemies)
 
         # Draw the health bar background (gray)
-        health_width = int((self.health / 5) * self.healthbar.width)  # Scale health bar width
-        health_background = pygame.Rect(adjusted_h.x, adjusted_h.y, self.healthbar.width, 5)
+        health_width = int((self.health / 5) * self.healthbar.width)  # Scale health bar width by every throw because of self.health gets redduced by one d
+        health_background = pygame.Rect(adjusted_h.x, adjusted_h.y, self.healthbar.width, 5) # 5 is heaight
         health_foreground = pygame.Rect(adjusted_h.x, adjusted_h.y, health_width, 5)
-        pygame.draw.rect(screen, (100, 100, 100), health_background)  # Background
-        pygame.draw.rect(screen, (4, 209, 0), health_foreground)  # Foreground
+        pygame.draw.rect(screen, (100, 100, 100), health_background)  # Background grey parts of the  health
+        pygame.draw.rect(screen, (4, 209, 0), health_foreground)  # Foreground green parts of it 
 
 
 
@@ -74,7 +74,8 @@ class Enemy:
             self.direction *= -1  # Reverse direction
 
 
-
+        self.healthbar.x = self.rect.x  # Align x-coordinate
+        self.healthbar.y = self.rect.y - 10  # Position slightly above the enemy
         
 
         
