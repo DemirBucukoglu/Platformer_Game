@@ -14,10 +14,10 @@ class Weapon:
     def throw(self, enemies):
         if self.active:
             self.rect.x += self.speed * self.direction # moves the weapon
-
             for enemy in  enemies:
-                if self.rect.colliderect(enemy.rect):
-                    enemies.remove(enemy)  # Remove the enemy
+                if self.rect.colliderect(enemy.rect): # checks collision  w the  enemy
+                    if enemy.take_damage():
+                        enemies.remove(enemy)  # Remove the enemy
                     self.active = False  # Deactivate the weapon
                     break  # Stop check
 

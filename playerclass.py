@@ -23,9 +23,10 @@ class Player:
         speed = 5
         if keys[pygame.K_a]:  # Move left
             self.rect.x -= speed
+            self.direction = -1
         if keys[pygame.K_d]:  # Move right
             self.rect.x += speed
-        
+            self.direction = 1
 
         #JUMPING I DONT  REALLY UNDERSTAND IT 
         if keys[pygame.K_SPACE] and self.on_ground:

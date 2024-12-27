@@ -56,7 +56,7 @@ while run:
             exit()
         if event.type  == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                new_weapon = Weapon(player.rect.centerx, player.rect.centery, direction = 1) # draws the weapoin in the middle of  the player
+                new_weapon = Weapon(player.rect.centerx, player.rect.centery, direction = player.direction) # draws the weapoin in the middle of  the player and shoots at wehre player is facing
                 weapons.append(new_weapon) # appends the weapon  to weapon list
 
 
@@ -67,7 +67,7 @@ while run:
     player.check_collision(platforms, enemies)
     camera.update(player)
     
-    screen.fill((100, 149, 237)) #  fill  screen w blueddddd
+    screen.fill((100, 149, 237)) #  fill  screen w bluedddddd
 
     for weapon in weapons[:]:
         weapon.draw(screen, camera)
@@ -79,8 +79,10 @@ while run:
         platform.draw(screen, camera)
 
     for enemy in enemies:
+        enemy.apply_gravity(platforms)
         enemy.draw(screen, camera)
         enemy.movement()
+        
     
 
 

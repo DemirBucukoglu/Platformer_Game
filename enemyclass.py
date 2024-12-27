@@ -4,24 +4,65 @@ pygame.init()
 
 class Enemy:
 
-    def __init__(self, x, y, image_path):
+    def __init__(self, x, y, image_path, health=5):
         self.image = pygame.image.load(image_path).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect = pygame.Rect(self.rect.x, self.rect.y, 100, 100) # hitbox
         self.image = pygame.transform.scale(self.image, (70, 100)) # enemy image size 
         self.rect.x = x  # Set the x-coordinate 
         self.rect.y = y - 20  # Set the y-coordinate where enemy gonna appear
+        self.health = health
+        self.healthbar = pygame.Rect(self.rect.x, self.rect.y, 100, 200)
 
         self.speed = 2
         self.direction = 1 # 1 move right -1 left
         self.left_boundary = x - 50
         self.right_boundary = x + 150
+        
+        self.velocity_y = 0  # Vertical velocity (for gravity)
+        self.on_ground = False  # Whether the enemy is on a platform or ground
+    
+    def apply_gravity(self, platforms):
+        gravity = 1  # Constant gravity force
+        self.velocity_y += gravity  # Increase downward velocity
 
+        # Update vertical position
+        self.rect.y += self.velocity_y
+
+        # Check collision with platforms
+        for platform in platforms:
+            if self.rect.colliderect(platform.rect) and self.velocity_y >= 0:
+                self.rect.bottom = platform.rect.top  # Place enemy on the platform
+                self.velocity_y = 0  # Stop falling
+                self.on_ground = True
+                break
+        else:
+            self.on_ground = False  # If no platform collision, enemy is in the air
+
+
+    def take_damage(self):  
+        self.health -= 1
+        if self.health <= 0:
+            return True
+        return False
+    
 
     def draw(self, screen, camera):
+        # Adjust enemy and health bar positions based on the camera
         adjusted_enemies = camera.apply(self.rect)
-        pygame.draw.rect(screen, (255, 0, 0), adjusted_enemies, 1)
+        adjusted_h = camera.apply(self.healthbar)
+
+        # Draw the enemy
+        pygame.draw.rect(screen, (255, 0, 0), adjusted_enemies, 1)  # Optional hitbox
         screen.blit(self.image, adjusted_enemies)
+
+        # Draw the health bar background (gray)
+        health_width = int((self.health / 5) * self.healthbar.width)  # Scale health bar width
+        health_background = pygame.Rect(adjusted_h.x, adjusted_h.y, self.healthbar.width, 5)
+        health_foreground = pygame.Rect(adjusted_h.x, adjusted_h.y, health_width, 5)
+        pygame.draw.rect(screen, (100, 100, 100), health_background)  # Background
+        pygame.draw.rect(screen, (4, 209, 0), health_foreground)  # Foreground
+
 
 
     def movement(self):
@@ -32,3 +73,8 @@ class Enemy:
         if self.rect.x <= self.left_boundary or self.rect.x >= self.right_boundary:
             self.direction *= -1  # Reverse direction
 
+
+
+        
+
+        

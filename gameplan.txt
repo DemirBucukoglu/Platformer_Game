@@ -13,5 +13,3 @@ A class for the boss
 
 A class for items that we will get from sprites
 
-
-TODO ENEMY COLLSION ANDF MAKE THE MOVE
