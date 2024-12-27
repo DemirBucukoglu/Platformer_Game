@@ -71,7 +71,7 @@ while run:
 
     for weapon in weapons[:]:
         weapon.draw(screen, camera)
-        weapon.throw(enemies)
+        weapon.throwtoenemies(enemies)
         if not weapon.active:
             weapons.remove(weapon) # removes  the  not active eapons  which are the ones collide w the enemy
 

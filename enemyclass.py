@@ -78,4 +78,3 @@ class Enemy:
         self.healthbar.y = self.rect.y - 10  # Position slightly above the enemy
         
 
-        
