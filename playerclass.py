@@ -33,6 +33,17 @@ class Player:
             self.on_ground = False
         self.velocity_y += 1
         self.rect.y += self.velocity_y
+        
+
+    def handle_enemy_collision(self, enemy):
+        # Push player out of the enemy's hitbox
+        if self.rect.right > enemy.rect.left and self.rect.left < enemy.rect.right:
+            if self.rect.centerx < enemy.rect.centerx:  # Player is on the left side
+                self.rect.right = enemy.rect.left
+            else:  # Player is on the right side
+                self.rect.left = enemy.rect.right
+
+
 
     def check_collision(self, platforms, enemies):
         self.on_ground = False
@@ -44,8 +55,12 @@ class Player:
                     self.on_ground = True
 
         for enemy in enemies:
-            if self.rect.colliderect(enemy.rect):
-                if self.velocity_y >= 0 and self.rect.bottom <= enemy.rect.top + self.velocity_y:
+            if self.rect.colliderect(enemy.rect):  # Check for collision with enemy
+                if self.velocity_y >= 0 and self.rect.bottom <= enemy.rect.top + abs(self.velocity_y):
+                    # Player lands on top of the enemy
                     self.rect.bottom = enemy.rect.top
-                    self.velocity_y = 0
+                    self.velocity_y = 0  # Reset vertical velocity
                     self.on_ground = True
+                else:
+                    # Handle collision when not landing on top (e.g., side or bottom collision)
+                    self.handle_enemy_collision(enemy)

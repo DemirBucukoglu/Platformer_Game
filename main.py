@@ -3,6 +3,7 @@ from playerclass import Player
 from platformclass import Platform
 from cameraclass import Camera
 from enemyclass import Enemy
+from weaponclss import Weapon
 from  sys import exit
 
 pygame.init()
@@ -41,6 +42,8 @@ enemies = [
     Enemy(600, 500, r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
 ]
 
+weapons = []
+
 player = Player(0,350, r"C:\Users\demir\Downloads\New Piskel-1.png.png") #  makes us a player to play w
 camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT) # puts the camera on the player adjusts it based on the player movement
 
@@ -51,6 +54,12 @@ while run:
         if event.type == pygame.QUIT:  # Quit event is pressing x to close window
             run = False
             exit()
+        if event.type  == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                new_weapon = Weapon(player.rect.centerx, player.rect.centery, direction = 1) # draws the weapoin in the middle of  the player
+                weapons.append(new_weapon) # appends the weapon  to weapon list
+
+
 
 
     keys = pygame.key.get_pressed()
@@ -58,8 +67,13 @@ while run:
     player.check_collision(platforms, enemies)
     camera.update(player)
     
-    screen.fill((100, 149, 237)) #  fill  screen w blue
+    screen.fill((100, 149, 237)) #  fill  screen w blueddddd
 
+    for weapon in weapons[:]:
+        weapon.draw(screen, camera)
+        weapon.throw(enemies)
+        if not weapon.active:
+            weapons.remove(weapon) # removes  the  not active eapons  which are the ones collide w the enemy
 
     for platform in platforms:
         platform.draw(screen, camera)
@@ -67,12 +81,14 @@ while run:
     for enemy in enemies:
         enemy.draw(screen, camera)
         enemy.movement()
+    
+
 
     # DRAWS THE PLAYER 
     adjusted_player_rect = camera.apply(player.rect) # adjusts the rectangle to camera ofseett
     screen.blit(player.image, adjusted_player_rect) # draws the image on the screen to the camere ofsett position  DRAWA THE PLAYER BASICALLy
 
-    pygame.draw.rect(screen, ((255, 0, 0)), adjusted_player_rect, 1) # hitbox for  
+    pygame.draw.rect(screen, ((255, 0, 0)), adjusted_player_rect, 1) # hitbox for  player
     
 
 

@@ -10,7 +10,7 @@ class Enemy:
         self.rect = pygame.Rect(self.rect.x, self.rect.y, 100, 100) # hitbox
         self.image = pygame.transform.scale(self.image, (70, 100)) # enemy image size 
         self.rect.x = x  # Set the x-coordinate 
-        self.rect.y = y  # Set the y-coordinate where enemy gonna appear
+        self.rect.y = y - 20  # Set the y-coordinate where enemy gonna appear
 
         self.speed = 2
         self.direction = 1 # 1 move right -1 left
@@ -25,10 +25,10 @@ class Enemy:
 
 
     def movement(self):
+        # Incrementally move the enemy based on speed and direction
+        self.rect.x += self.speed * self.direction
 
-        self.rect.x = self.speed * self.direction # where enemy moves
-
+        # Reverse direction if the enemy hits a patrol boundary
         if self.rect.x <= self.left_boundary or self.rect.x >= self.right_boundary:
             self.direction *= -1  # Reverse direction
-
 
