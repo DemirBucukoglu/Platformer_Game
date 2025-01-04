@@ -12,6 +12,10 @@ pygame.init()
 
 
 
+pygame.init()
+
+
+
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
@@ -20,6 +24,8 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes the scre
 clock = pygame.time.Clock() # sets the fps
 
 platimg = r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\platforms.png"
+ammo_drops = []
+
 platforms = [
     # x, y, width, height, image_path
     Platform(200, 500, 150, 20, platimg),
@@ -70,8 +76,8 @@ while run:
         if event.type  == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 new_weapon = Weapon(player.rect.centerx, player.rect.centery, direction = player.direction) # draws the weapoin in the middle of  the player and shoots at wehre player is facing
-                weapons.append(new_weapon) # appends the weapon  to weapon list
-
+                # weapons.append(new_weapon) # appends the weapon  to weapon list
+                player.shoot(weapons)
 
 
 
@@ -105,10 +111,54 @@ while run:
         enemy.update_projectiles(player)  # Update projectiles
         enemy.draw_projectiles(screen, camera)  # Draw projectiles
         enemy.movement()  # Move the enemy
-        enemy.draw(screen, camera)  # Draw the enemy
+        enemy.draw(screen, camera)  # Draw the enemyd
 
 
-        
+    for enemy in enemies[:]:
+        if enemy.health <= 0:
+            print(f"Enemy died! Drops: {enemy.drops}")
+            ammo_drops.extend(enemy.drops)
+            print(f"Ammo drops after enemy death: {ammo_drops}")
+            enemies.remove(enemy)
+
+    for drop in ammo_drops[:]:
+        drop_rect = pygame.Rect(drop["x"], drop["y"], 20, 20)
+        adjusted_drop_rect = camera.apply(drop_rect)
+        pygame.draw.rect(screen, (255, 255, 0), adjusted_drop_rect)
+        print(f"Drawing ammo at ({drop['x']}, {drop['y']})")
+
+        print(f"Player rect: {player.rect}, Drop rect: {drop_rect}")
+        if player.rect.colliderect(drop_rect):
+            print("Collision detected with ammo drop!")
+            if drop["type"] == "ammo":
+                player.ammo += drop["amount"]
+                print(f"Picked up ammo! Current ammo: {player.ammo}")
+            ammo_drops.remove(drop)
+
+
+    for drop in ammo_drops:
+        print(f"Drawing ammo at ({drop['x']}, {drop['y']})")  # Debug: Confirm drawing
+        drop_rect = pygame.Rect(drop["x"], drop["y"], 20, 20)  # World position
+        adjusted_drop_rect = camera.apply(drop_rect)  # Adjust for camera
+        pygame.draw.rect(screen, (255, 255, 0), adjusted_drop_rect)  # Draw ammo drop
+
+
+
+
+
+
+
+
+
+
+
+
+
+    font = pygame.font.Font(None, 36)
+    ammo_text = font.render(f"Ammo: {player.ammo}", True, (255, 255, 255))
+    screen.blit(ammo_text, (10, 40))  # Display at the top-left corner
+
+            
     
 
 
@@ -128,5 +178,6 @@ while run:
 
     pygame.display.update() # displays the things updates
     clock.tick(60)
+
 
 

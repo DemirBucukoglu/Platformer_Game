@@ -11,7 +11,7 @@ class Weapons:
         self.direction = direction  # Direction (1 = right, -1 = left)
         self.active = True  # Track if the weapon is active
 
-    def throwtoenemies(self, enemies):
+    def throwtoplayer(self, enemies):
         if self.active:
             self.rect.x += self.speed * self.direction # moves the weapon
             for enemy in  enemies:

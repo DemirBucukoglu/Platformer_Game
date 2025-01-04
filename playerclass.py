@@ -2,9 +2,11 @@ import pygame
 
 
 pygame.init()
+from weaponclss import Weapon
+
  # rect == player since rect is what holds the image of the player
 class Player:
-    def __init__(self, x, y, image_path, health = 5):
+    def __init__(self, x, y, image_path, health = 5, ammo = 7):
         self.image = pygame.image.load(image_path).convert_alpha()  # Load the player image
         self.rect = self.image.get_rect()  # you draw a rectangle  on the image so it is like a hit box basicalssy
         self.rect = pygame.Rect(self.rect.x, self.rect.y, 70, 70) # hitbox 
@@ -17,6 +19,17 @@ class Player:
         self.health = health
         self.healthbar = pygame.Rect(self.rect.x, self.rect.y, 100, 200) # draws the  healthbar
         
+        self.ammo = ammo  # Ammo count
+
+    def shoot(self, weapons_list):
+        if self.ammo > 0:  # Ensure ammo is available before shooting
+            new_weapon = Weapon(self.rect.centerx, self.rect.centery, direction=self.direction)
+            weapons_list.append(new_weapon)
+            self.ammo -= 1  # Reduce ammo by 1
+        else:
+            print("Out of ammo!")  # Optional debug message
+
+
         
     def draw(self, screen):
         screen.blit(self.image, self.rect)  # blit draws it on screen
@@ -75,8 +88,8 @@ class Player:
                     self.rect.bottom = enemy.rect.top
                     self.velocity_y = 0  # Reset vertical velocity
                     self.on_ground = True
-                else:
-                    # Handle side or bottom collision with the enemy
-                    self.handle_enemy_collision(enemy)
-                    if self.take_damage():  # Reduce player health
-                        print(f"Player health: {self.health}")
+                # else:
+                #     # Handle side or bottom collision with the enemy
+                #     self.handle_enemy_collision(enemy)
+                #     if self.take_damage():  # Reduce player health
+                #         print(f"Player health: {self.health}")import pygame

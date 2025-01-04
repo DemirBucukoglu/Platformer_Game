@@ -1,9 +1,10 @@
-import pygame
-pygame.init()
-
 import random
-from enemywep import Weapons
 
+from enemywep import Weapons
+import pygame
+
+
+pygame.init()
 class Enemy:
 
     def __init__(self, x, y, image_path, health=5):
@@ -27,6 +28,21 @@ class Enemy:
 
         self.shoot_cooldown = random.randint(100,200)
         self.projectiles = []
+        self.drops = []
+
+    def take_damage(self):
+        self.health -= 1
+        print(f"Enemy took damage. Current health: {self.health}")
+        if self.health <= 0:
+            drop = {"type": "ammo", "x": self.rect.centerx, "y": self.rect.bottom, "amount": 5}
+            self.drops.append(drop)
+            print(f"Drop created: {drop}")  # Debug: Confirm drop creation
+            return True
+        return False
+
+
+
+
 
     def apply_gravity(self, platforms):
         gravity = 1  # Constant gravity force
@@ -46,12 +62,6 @@ class Enemy:
             self.on_ground = False  # If no platform collision, enemy is in the air
 
 
-    def take_damage(self):  
-        self.health -= 1
-        if self.health <= 0:
-            return True
-        return False
-
     def shoot(self):
         if self.shoot_cooldown <= 0:
             # Create a new projectile
@@ -62,7 +72,7 @@ class Enemy:
         
     def update_projectiles(self, player):
         for projectile in self.projectiles[:]:
-            projectile.throwtoenemies([player])  # Check collision with the player
+            projectile.throwtoplayer([player])  # Check collision with the player
             if not projectile.active:  # Remove inactive projectiles
                 self.projectiles.remove(projectile)
             
@@ -103,4 +113,3 @@ class Enemy:
         
         if self.shoot_cooldown > 0:
             self.shoot_cooldown -= 1
-
