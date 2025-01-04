@@ -24,7 +24,9 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes the scre
 clock = pygame.time.Clock() # sets the fps
 
 platimg = r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\platforms.png"
-ammo_drops = []
+
+ammo_refresh_message = ""
+message_display_timer = 0
 
 platforms = [
     # x, y, width, height, image_path
@@ -99,58 +101,33 @@ while run:
 
     for weapon in weapons[:]:
         weapon.draw(screen, camera)
-        weapon.throwtoenemies(enemies)
+        weapon.throwtoenemies(enemies, player)
         if not weapon.active:
             weapons.remove(weapon) # removes  the  not active eapons  which are the ones collide w the enemy
 
     for platform in platforms:
         platform.draw(screen, camera)
 
-    for enemy in enemies:
-        enemy.shoot()  # Allow enemy to shoot
-        enemy.update_projectiles(player)  # Update projectiles
-        enemy.draw_projectiles(screen, camera)  # Draw projectiles
-        enemy.movement()  # Move the enemy
-        enemy.draw(screen, camera)  # Draw the enemyd
-
-
     for enemy in enemies[:]:
-        if enemy.health <= 0:
-            print(f"Enemy died! Drops: {enemy.drops}")
-            ammo_drops.extend(enemy.drops)
-            print(f"Ammo drops after enemy death: {ammo_drops}")
-            enemies.remove(enemy)
+        enemy.shoot()
+        enemy.update_projectiles(player)
+        enemy.draw_projectiles(screen, camera)
+        enemy.movement()
+        enemy.draw(screen, camera)
 
-    for drop in ammo_drops[:]:
-        drop_rect = pygame.Rect(drop["x"], drop["y"], 20, 20)
-        adjusted_drop_rect = camera.apply(drop_rect)
-        pygame.draw.rect(screen, (255, 255, 0), adjusted_drop_rect)
-        print(f"Drawing ammo at ({drop['x']}, {drop['y']})")
-
-        print(f"Player rect: {player.rect}, Drop rect: {drop_rect}")
-        if player.rect.colliderect(drop_rect):
-            print("Collision detected with ammo drop!")
-            if drop["type"] == "ammo":
-                player.ammo += drop["amount"]
-                print(f"Picked up ammo! Current ammo: {player.ammo}")
-            ammo_drops.remove(drop)
-
-
-    for drop in ammo_drops:
-        print(f"Drawing ammo at ({drop['x']}, {drop['y']})")  # Debug: Confirm drawing
-        drop_rect = pygame.Rect(drop["x"], drop["y"], 20, 20)  # World position
-        adjusted_drop_rect = camera.apply(drop_rect)  # Adjust for camera
-        pygame.draw.rect(screen, (255, 255, 0), adjusted_drop_rect)  # Draw ammo drop
+        # Check enemy health and handle ammo refresh
+        if enemy.health <= 0:  # This block might be redundant
+            player.ammo += 5
+            ammo_refresh_message = "Ammo refreshed!"
+            message_display_timer = 60
 
 
 
-
-
-
-
-
-
-
+    if message_display_timer > 0:
+        font = pygame.font.Font(None, 36)
+        message_text = font.render(ammo_refresh_message, True, (255, 255, 0))  # Yellow text
+        screen.blit(message_text, (SCREEN_WIDTH // 2 - 100, 50))  # Adjust position as needed
+        message_display_timer -= 1
 
 
 
@@ -159,7 +136,16 @@ while run:
     screen.blit(ammo_text, (10, 40))  # Display at the top-left corner
 
             
-    
+
+
+    # Display the ammo refreshed message
+    if message_display_timer > 0:
+        font = pygame.font.Font(None, 36)
+        message_text = font.render(ammo_refresh_message, True, (255, 255, 0))  # Yellow text
+        screen.blit(message_text, (SCREEN_WIDTH // 2 - 100, 10))  # Display at the top center
+        message_display_timer -= 1  # Decrease the timer
+
+
 
 
     # DRAWS THE PLAYER 

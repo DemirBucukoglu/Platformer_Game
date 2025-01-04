@@ -30,18 +30,11 @@ class Enemy:
         self.projectiles = []
         self.drops = []
 
-    def take_damage(self):
+    def take_damage(self):  
         self.health -= 1
-        print(f"Enemy took damage. Current health: {self.health}")
         if self.health <= 0:
-            drop = {"type": "ammo", "x": self.rect.centerx, "y": self.rect.bottom, "amount": 5}
-            self.drops.append(drop)
-            print(f"Drop created: {drop}")  # Debug: Confirm drop creation
             return True
         return False
-
-
-
 
 
     def apply_gravity(self, platforms):
