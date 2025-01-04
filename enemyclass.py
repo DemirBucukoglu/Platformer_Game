@@ -1,6 +1,8 @@
 import pygame
 pygame.init()
 
+import random
+from weaponclss import Weapon
 
 class Enemy:
 
@@ -11,6 +13,7 @@ class Enemy:
         self.image = pygame.transform.scale(self.image, (70, 100)) # enemy image size 
         self.rect.x = x  # Set the x-coordinate 
         self.rect.y = y - 20  # Set the y-coordinate where enemy gonna appear
+        
         self.health = health
         self.healthbar = pygame.Rect(self.rect.x, self.rect.y, 100, 200) # draws the  healthbar
 
@@ -21,7 +24,10 @@ class Enemy:
         
         self.velocity_y = 0  # Vertical velocity (for gravity)
         self.on_ground = False  # Whether the enemy is on a platform or ground
-    
+
+        self.shoot_cooldown = random.randint(100,200)
+        self.projectiles = []
+
     def apply_gravity(self, platforms):
         gravity = 1  # Constant gravity force
         self.velocity_y += gravity  # Increase downward velocity
@@ -45,7 +51,25 @@ class Enemy:
         if self.health <= 0:
             return True
         return False
-    
+
+    def shoot(self):
+        if self.shoot_cooldown <= 0:
+            # Create a new projectile
+            new_projectile = Weapon(self.rect.centerx, self.rect.centery, direction=-1, speed=5)  # Shoot left for now
+            self.projectiles.append(new_projectile)
+            self.shoot_cooldown = random.randint(100, 200)  # Reset cooldown
+
+        
+    def update_projectiles(self, player):
+        for projectile in self.projectiles[:]:
+            projectile.throwtoenemies([player])  # Check collision with the player
+            if not projectile.active:  # Remove inactive projectiles
+                self.projectiles.remove(projectile)
+            
+    def draw_projectiles(self, screen, camera):
+        for projectile in self.projectiles:
+            projectile.draw(screen, camera)
+
 
     def draw(self, screen, camera):
         # Adjust enemy and health bar positions based on the camera
@@ -72,9 +96,11 @@ class Enemy:
         # Reverse direction if the enemy hits a patrol boundary
         if self.rect.x <= self.left_boundary or self.rect.x >= self.right_boundary:
             self.direction *= -1  # Reverse direction
-
+        
 
         self.healthbar.x = self.rect.x  # Align x-coordinate
         self.healthbar.y = self.rect.y - 10  # Position slightly above the enemy
         
+        if self.shoot_cooldown > 0:
+            self.shoot_cooldown -= 1
 

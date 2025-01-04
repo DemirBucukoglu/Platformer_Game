@@ -44,6 +44,9 @@ enemies = [
 
 weapons = []
 
+
+
+
 player = Player(0,350, r"C:\Users\demir\Downloads\New Piskel-1.png.png") #  makes us a player to play w
 camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT) # puts the camera on the player adjusts it based on the player movement
 
@@ -79,9 +82,13 @@ while run:
         platform.draw(screen, camera)
 
     for enemy in enemies:
-        enemy.apply_gravity(platforms)
-        enemy.draw(screen, camera)
-        enemy.movement()
+        enemy.shoot()  # Allow enemy to shoot
+        enemy.update_projectiles(player)  # Update projectiles
+        enemy.draw_projectiles(screen, camera)  # Draw projectiles
+        enemy.movement()  # Move the enemy
+        enemy.draw(screen, camera)  # Draw the enemy
+
+
         
     
 
@@ -89,6 +96,12 @@ while run:
     # DRAWS THE PLAYER 
     adjusted_player_rect = camera.apply(player.rect) # adjusts the rectangle to camera ofseett
     screen.blit(player.image, adjusted_player_rect) # draws the image on the screen to the camere ofsett position  DRAWA THE PLAYER BASICALLy
+
+    # Draw player health bar
+    player_health_width = int((player.health / 5) * 100)  # Scale health bar width
+    player_health_rect = pygame.Rect(10, 10, player_health_width, 10)  # Position and size
+    pygame.draw.rect(screen, (255, 0, 0), (10, 10, 100, 10))  # Background (red)
+    pygame.draw.rect(screen, (0, 255, 0), player_health_rect)  # Foreground (green)
 
     pygame.draw.rect(screen, ((255, 0, 0)), adjusted_player_rect, 1) # hitbox for  player
     
