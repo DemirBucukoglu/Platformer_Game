@@ -2,7 +2,7 @@ import pygame
 pygame.init()
 
 import random
-from weaponclss import Weapon
+from enemywep import Weapons
 
 class Enemy:
 
@@ -55,7 +55,7 @@ class Enemy:
     def shoot(self):
         if self.shoot_cooldown <= 0:
             # Create a new projectile
-            new_projectile = Weapon(self.rect.centerx, self.rect.centery, direction=-1, speed=5)  # Shoot left for now
+            new_projectile = Weapons(self.rect.centerx, self.rect.centery, direction=-1, speed=5)  # Shoot left for now
             self.projectiles.append(new_projectile)
             self.shoot_cooldown = random.randint(100, 200)  # Reset cooldown
 

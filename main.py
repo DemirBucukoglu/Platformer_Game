@@ -6,6 +6,8 @@ from enemyclass import Enemy
 from weaponclss import Weapon
 from  sys import exit
 from deathscreen import show_death_screen
+from enemywep import Weapons
+
 pygame.init()
 
 
