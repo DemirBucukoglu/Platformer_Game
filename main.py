@@ -5,7 +5,7 @@ from cameraclass import Camera
 from enemyclass import Enemy
 from weaponclss import Weapon
 from  sys import exit
-
+from deathscreen import show_death_screen
 pygame.init()
 
 
@@ -45,6 +45,14 @@ enemies = [
 weapons = []
 
 
+def reset_game():
+    global player, enemies, weapons
+    player = Player(0, 350, r"C:\Users\demir\Downloads\New Piskel-1.png.png")
+    enemies = [
+        Enemy(400, 500, r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+        Enemy(600, 500, r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+    ]
+    weapons = []
 
 
 player = Player(0,350, r"C:\Users\demir\Downloads\New Piskel-1.png.png") #  makes us a player to play w
@@ -68,6 +76,15 @@ while run:
     keys = pygame.key.get_pressed()
     player.move(keys) #  player moves w the keys when pressed and the get_pressed func  registeres what keys are pressed
     player.check_collision(platforms, enemies)
+
+    if player.health <= 0:
+        play_again = show_death_screen(screen)
+        if play_again:
+            reset_game()  # Restart the game
+        else:
+            run = False  # Exit the game
+
+    
     camera.update(player)
     
     screen.fill((100, 149, 237)) #  fill  screen w bluedddddd
