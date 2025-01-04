@@ -27,6 +27,7 @@ platimg = r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\bracke
 
 ammo_refresh_message = ""
 message_display_timer = 0
+dropped_weapons = []
 
 platforms = [
     # x, y, width, height, image_path
@@ -101,7 +102,7 @@ while run:
 
     for weapon in weapons[:]:
         weapon.draw(screen, camera)
-        weapon.throwtoenemies(enemies, player)
+        weapon.throwtoenemies(enemies, player, dropped_weapons)
         if not weapon.active:
             weapons.remove(weapon) # removes  the  not active eapons  which are the ones collide w the enemy
 
@@ -115,19 +116,14 @@ while run:
         enemy.movement()
         enemy.draw(screen, camera)
 
-        # Check enemy health and handle ammo refresh
-        if enemy.health <= 0:  # This block might be redundant
-            player.ammo += 5
-            ammo_refresh_message = "Ammo refreshed!"
-            message_display_timer = 60
 
-
-
-    if message_display_timer > 0:
-        font = pygame.font.Font(None, 36)
-        message_text = font.render(ammo_refresh_message, True, (255, 255, 0))  # Yellow text
-        screen.blit(message_text, (SCREEN_WIDTH // 2 - 100, 50))  # Adjust position as needed
-        message_display_timer -= 1
+    # SPAWN  AMMO  WHEN DIED 
+    for weapon in dropped_weapons[:]:
+        if player.rect.colliderect(weapon.rect):  # Check if player picks up the weapon
+            player.ammo += 4  # Increase player's ammo
+            dropped_weapons.remove(weapon)  # Remove weapon from the list
+        else:
+            weapon.draw(screen, camera)  # Draw the dropped weapon
 
 
 
@@ -136,14 +132,6 @@ while run:
     screen.blit(ammo_text, (10, 40))  # Display at the top-left corner
 
             
-
-
-    # Display the ammo refreshed message
-    if message_display_timer > 0:
-        font = pygame.font.Font(None, 36)
-        message_text = font.render(ammo_refresh_message, True, (255, 255, 0))  # Yellow text
-        screen.blit(message_text, (SCREEN_WIDTH // 2 - 100, 10))  # Display at the top center
-        message_display_timer -= 1  # Decrease the timer
 
 
 

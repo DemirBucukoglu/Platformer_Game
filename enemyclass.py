@@ -30,9 +30,11 @@ class Enemy:
         self.projectiles = []
         self.drops = []
 
-    def take_damage(self):  
+    def take_damage(self, dropped_weapons):
         self.health -= 1
-        if self.health <= 0:
+        if self.health <= 0:  # Enemy dies
+            # Drop weapon at enemy's position
+            dropped_weapons.append(Weapons(self.rect.x, self.rect.y + 40, pickup=True)) # the place the weapon gets dropped
             return True
         return False
 
