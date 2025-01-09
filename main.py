@@ -23,7 +23,7 @@ pygame.display.set_caption("Me vs Profs")
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes the screen for pygame
 clock = pygame.time.Clock() # sets the fps
 
-platimg = r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\platforms.png"
+platimg = r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\platforms.png"
 
 ammo_refresh_message = ""
 message_display_timer = 0
@@ -49,8 +49,8 @@ platforms = [
 ]
 
 enemies = [
-    Enemy(400, 500, r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
-    Enemy(600, 500, r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+    Enemy(400, 500, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+    Enemy(600, 500, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
 ]
 
 weapons = []
@@ -58,15 +58,15 @@ weapons = []
 
 def reset_game():
     global player, enemies, weapons
-    player = Player(0, 350, r"C:\Users\demir\Downloads\New Piskel-1.png.png")
+    player = Player(0, 350, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\slime_green.png")
     enemies = [
-        Enemy(400, 500, r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
-        Enemy(600, 500, r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+        Enemy(400, 500, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+        Enemy(600, 500, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
     ]
     weapons = []
 
 
-player = Player(0,350, r"C:\Users\demir\Downloads\New Piskel-1.png.png") #  makes us a player to play w
+player = Player(0,350, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\slime_green.png") #  makes us a player to play w
 camera = Camera(SCREEN_WIDTH, SCREEN_HEIGHT) # puts the camera on the player adjusts it based on the player movement
 
 run = True

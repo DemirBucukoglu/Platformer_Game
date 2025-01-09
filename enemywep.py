@@ -4,7 +4,7 @@ pygame.init()
 
 class Weapons:
     def __init__(self, x, y, direction=0, speed=10, pickup=False):
-        self.image = pygame.image.load(r"C:\Users\demir\OneDrive\Masaüstü\brackeys_platformer_assets\brackeys_platformer_assets\sprites\fruit.png").convert_alpha()
+        self.image = pygame.image.load(r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\fruit.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, (20, 20))  # Resize the sprite
         self.rect = self.image.get_rect(topleft=(x, y))  # Set position and size
         self.speed = speed  # Speed of the weapon
