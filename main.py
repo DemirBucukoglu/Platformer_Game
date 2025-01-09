@@ -7,7 +7,7 @@ from weaponclss import Weapon
 from  sys import exit
 from deathscreen import show_death_screen
 from enemywep import Weapons
-
+from boss import Boss
 pygame.init()
 
 
@@ -53,9 +53,12 @@ platforms = [
 
 # Enemies: Positioned to challenge the player as they progress
 enemies = [
-    Enemy(200, 450, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+    Enemy(200, 430, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
     Enemy(700, 350, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
-    Enemy(1100, 280, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+    Enemy(1250, 280, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+]
+
+bosses = [Boss(1300, 280, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png")  # Boss
 ]
 
 # Dropped weapons for ammo refresh (placed randomly or after specific enemies)
@@ -127,6 +130,18 @@ while run:
         enemy.movement()
         enemy.draw(screen, camera)
 
+    for boss in bosses[:]:  # Iterate over the bosses list
+        boss.apply_gravity(platforms)
+        boss.shoot()
+        boss.update_projectiles(player)
+        boss.draw_projectiles(screen, camera)
+        boss.movement()
+        boss.draw(screen, camera)
+
+        # Check if the boss is dead
+        if boss.health <= 0:
+            bosses.remove(boss)
+
 
     # SPAWN  AMMO  WHEN DIED 
     for weapon in dropped_weapons[:]:
@@ -143,8 +158,6 @@ while run:
     screen.blit(ammo_text, (10, 40))  # Display at the top-left corner
 
             
-
-
 
 
     # DRAWS THE PLAYER 

@@ -1,18 +1,4 @@
 
 
 
-
-
-A class that holds our player
-
-A class for our  sprites enemies
-
-A class for world generatoin
-
-A class for the boss
-
-A class for items that we will get from sprites
-
-
-TODO  MAKE ENEMIES DROP WEAPONS  OR  COINS AND MAKE ENEMIES ATTACK
-
+The boss dont work idk why
