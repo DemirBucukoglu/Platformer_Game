@@ -85,12 +85,19 @@ class Boss:
         pygame.draw.rect(screen, (255, 0, 0), adjusted_enemies, 1)  # Optional hitbox
         screen.blit(self.image, adjusted_enemies)
 
-        # Draw the health bar background (gray)
-        health_width = int((self.health / 5) * self.healthbar.width)  # Scale health bar width by every throw because of self.health gets redduced by one d
-        health_background = pygame.Rect(adjusted_h.x, adjusted_h.y, self.healthbar.width, 5) # 5 is heaight
+        # Calculate health bar dimensions
+        max_health = 20  # The maximum health of the boss
+        health_bar_full_width = self.healthbar.width  # Full width of the health bar
+        health_width = int((self.health / max_health) * health_bar_full_width)  # Scale green health bar width
+
+        # Background health bar (gray, representing full health)
+        health_background = pygame.Rect(adjusted_h.x, adjusted_h.y, health_bar_full_width, 5)
+        pygame.draw.rect(screen, (100, 100, 100), health_background)  # Full-width background
+
+        # Foreground health bar (green, representing current health)
         health_foreground = pygame.Rect(adjusted_h.x, adjusted_h.y, health_width, 5)
-        pygame.draw.rect(screen, (100, 100, 100), health_background)  # Background grey parts of the  health
-        pygame.draw.rect(screen, (4, 209, 0), health_foreground)  # Foreground green parts of it 
+        pygame.draw.rect(screen, (4, 209, 0), health_foreground)  # Green foreground
+
 
 
 

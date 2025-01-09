@@ -34,6 +34,7 @@ message_display_timer = 0
 dropped_weapons = []
 
 # Platforms: Designed for a varied layout with challenges
+# Platforms: Designed for a varied layout with challenges
 platforms = [
     Platform(50, 500, 150, 20, platimg),  # Ground-level platform
     Platform(250, 450, 150, 20, platimg),
@@ -41,31 +42,29 @@ platforms = [
     Platform(750, 350, 150, 20, platimg),
     Platform(1000, 300, 200, 20, platimg),  # Higher platform
     Platform(1200, 250, 150, 20, platimg),
-
-    # Ground platforms (base level for scrolling)
-    Platform(-300, 580, 150, 20, platimg),
-    Platform(-150, 580, 150, 20, platimg),
-    Platform(0, 580, 150, 20, platimg),
-    Platform(150, 580, 150, 20, platimg),
-    Platform(300, 580, 150, 20, platimg),
-    Platform(450, 580, 150, 20, platimg),
-    Platform(600, 580, 150, 20, platimg),
-    Platform(750, 580, 150, 20, platimg),
-    Platform(900, 580, 150, 20, platimg),
-    Platform(1050, 580, 150, 20, platimg),
 ]
+ 
+# Infinite ground platforms (base level for scrolling)
+GROUND_PLATFORM_START = -1000  # Start generating platforms before the visible screen
+GROUND_PLATFORM_END = 5000  # Extend platforms far beyond the visible screen
+GROUND_PLATFORM_WIDTH = 150  # Width of each platform
+GROUND_PLATFORM_HEIGHT = 20  # Height of each platform
+
+# Generate ground platforms dynamically
+for x in range(GROUND_PLATFORM_START, GROUND_PLATFORM_END, GROUND_PLATFORM_WIDTH):
+    platforms.append(Platform(x, 580, GROUND_PLATFORM_WIDTH, GROUND_PLATFORM_HEIGHT, platimg))
+
 
 # Enemies: Positioned to challenge the player as they progress
 enemies = [
     Enemy(200, 430, knight_img),
     Enemy(700, 350, knight_img),
-    Enemy(1250, 280, knight_img),
+    Enemy(250, 280, knight_img),
 ]
 
 # Bosses
-bosses = [
-    Boss(1300, 280, knight_img)  # Boss
-]
+bosses = [Boss(1300, 300 - 100, knight_img)]  # Place boss 100px above the platform
+
 
 # Weapons
 weapons = []
@@ -112,7 +111,7 @@ while run:
     # Draw and update weapons
     for weapon in weapons[:]:
         weapon.draw(screen, camera)
-        weapon.throwtoenemies(enemies, player, dropped_weapons)
+        weapon.throwtoenemies(enemies, player, dropped_weapons, bosses)
         if not weapon.active:
             weapons.remove(weapon)
 

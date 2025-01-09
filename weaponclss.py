@@ -28,7 +28,7 @@ class Weapon:
         if self.pickup:
             pygame.draw.rect(screen, (0, 255, 0), adjusted_weapon, 1)  # Green hitbox
 
-    def throwtoenemies(self, enemies, player, dropped_weapons):
+    def throwtoenemies(self, enemies, player, dropped_weapons, bosses):
         if self.active:
             # Move the weapon based on its speed and direction
             self.rect.x += self.speed * self.direction
@@ -37,6 +37,15 @@ class Weapon:
                 if self.rect.colliderect(enemy.rect):  # Check for collision with an enemy
                     if enemy.take_damage(dropped_weapons):
                         enemies.remove(enemy)  # Remove the enemy
+                        player.ammo += 0  # Update player's ammo (change to desired value)
+                        player.ammo_refresh_message = "Ammo refreshed!"
+                        player.message_display_timer = 60  # Set message timer for display
+                    self.active = False  # Deactivate the weapon
+                    break  # Exit the loop after hitting an enemy
+            for boss in bosses:
+                if self.rect.colliderect(boss.rect):  # Check for collision with an boss
+                    if boss.take_damage(dropped_weapons):
+                        bosses.remove(boss)  # Remove the boss
                         player.ammo += 0  # Update player's ammo (change to desired value)
                         player.ammo_refresh_message = "Ammo refreshed!"
                         player.message_display_timer = 60  # Set message timer for display

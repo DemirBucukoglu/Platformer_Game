@@ -6,7 +6,7 @@ from weaponclss import Weapon
 
  # rect == player since rect is what holds the image of the player
 class Player:
-    def __init__(self, x, y, image_path, health = 5, ammo = 7):
+    def __init__(self, x, y, image_path, health = 5, ammo = 7000):
         self.image = pygame.image.load(image_path).convert_alpha()  # Load the player image
         self.rect = self.image.get_rect()  # you draw a rectangle  on the image so it is like a hit box basicalssy
         self.rect = pygame.Rect(self.rect.x, self.rect.y, 70, 70) # hitbox 
