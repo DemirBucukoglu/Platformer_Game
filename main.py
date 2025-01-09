@@ -36,12 +36,50 @@ dropped_weapons = []
 # Platforms: Designed for a varied layout with challenges
 # Platforms: Designed for a varied layout with challenges
 platforms = [
-    Platform(50, 500, 150, 20, platimg),  # Ground-level platform
-    Platform(250, 450, 150, 20, platimg),
-    Platform(500, 400, 200, 20, platimg),
-    Platform(750, 350, 150, 20, platimg),
-    Platform(1000, 300, 200, 20, platimg),  # Higher platform
-    Platform(1200, 250, 150, 20, platimg),
+    # Ground-level platforms (base for movement)
+    Platform(50, 500, 150, 20, platimg),  # Starting platform
+    Platform(300, 470, 150, 20, platimg),
+    Platform(550, 430, 150, 20, platimg),
+
+    # First challenge (small gap jump)
+    Platform(800, 400, 100, 20, platimg),
+    Platform(950, 380, 100, 20, platimg),
+
+    # Ascending platforms
+    Platform(1200, 350, 150, 20, platimg),
+    Platform(1400, 300, 150, 20, platimg),
+    Platform(1600, 250, 150, 20, platimg),
+
+    # Mid-level checkpoint
+    Platform(1800, 400, 200, 20, platimg),  # Large platform for rest
+    Platform(2000, 350, 150, 20, platimg),
+
+    # Series of narrow platforms (higher difficulty)
+    Platform(2200, 300, 100, 20, platimg),
+    Platform(2300, 280, 100, 20, platimg),
+    Platform(2400, 260, 100, 20, platimg),
+    Platform(2500, 240, 100, 20, platimg),
+
+    # Boss arena: Large cubicle structure
+    # Ground platform (base of cubicle)
+    Platform(2700, 500, 300, 20, platimg),
+
+    # Left wall (vertical platforms)
+    Platform(2700, 460, 20, 40, platimg),
+    Platform(2700, 420, 20, 40, platimg),
+    Platform(2700, 380, 20, 40, platimg),
+    Platform(2700, 340, 20, 40, platimg),
+    Platform(2700, 300, 20, 40, platimg),
+
+    # Right wall (vertical platforms)
+    Platform(3000, 460, 20, 40, platimg),
+    Platform(3000, 420, 20, 40, platimg),
+    Platform(3000, 380, 20, 40, platimg),
+    Platform(3000, 340, 20, 40, platimg),
+    Platform(3000, 300, 20, 40, platimg),
+
+    # Top platform (ceiling of cubicle)
+    Platform(2700, 260, 300, 20, platimg),
 ]
  
 # Infinite ground platforms (base level for scrolling)
@@ -63,7 +101,9 @@ enemies = [
 ]
 
 # Bosses
-bosses = [Boss(1300, 300 - 100, knight_img)]  # Place boss 100px above the platform
+# Bosses
+bosses = [Boss(2850, 450, knight_img)]  # Boss inside the cubicle
+
 
 
 # Weapons
