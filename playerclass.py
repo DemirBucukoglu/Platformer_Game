@@ -10,7 +10,7 @@ class Player:
         self.image = pygame.image.load(image_path).convert_alpha()  # Load the player image
         self.rect = self.image.get_rect()  # you draw a rectangle  on the image so it is like a hit box basicalssy
         self.rect = pygame.Rect(self.rect.x, self.rect.y, 70, 70) # hitbox 
-        self.image = pygame.transform.scale(self.image, (70, 100)) #size of  player
+        self.image = pygame.transform.scale(self.image, (70, 80)) #size of  player
         self.rect.x = x  # Set the x-coordinate 
         self.rect.y = y  # Set the y-coordinate
         self.velocity_y = 0 # velocity for jumping
