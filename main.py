@@ -29,16 +29,19 @@ ammo_refresh_message = ""
 message_display_timer = 0
 dropped_weapons = []
 
+# Platforms: Designed for a varied layout with challenges
 platforms = [
-    # x, y, width, height, image_path
-    Platform(200, 500, 150, 20, platimg),
-    Platform(100, 400, 150, 20, platimg ),
-    Platform(500, 300, 150, 20, platimg),
+    Platform(50, 500, 150, 20, platimg),  # Ground-level platform
+    Platform(250, 450, 150, 20, platimg),
+    Platform(500, 400, 200, 20, platimg),
+    Platform(750, 350, 150, 20, platimg),
+    Platform(1000, 300, 200, 20, platimg),  # Higher platform
+    Platform(1200, 250, 150, 20, platimg),
 
-    # ground platforms
+    # Ground platforms (base level for scrolling)
     Platform(-300, 580, 150, 20, platimg),
     Platform(-150, 580, 150, 20, platimg),
-    Platform(0, 580, 150, 20, platimg),  # Extend ground platform for scrolling
+    Platform(0, 580, 150, 20, platimg),
     Platform(150, 580, 150, 20, platimg),
     Platform(300, 580, 150, 20, platimg),
     Platform(450, 580, 150, 20, platimg),
@@ -48,10 +51,17 @@ platforms = [
     Platform(1050, 580, 150, 20, platimg),
 ]
 
+# Enemies: Positioned to challenge the player as they progress
 enemies = [
-    Enemy(400, 500, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
-    Enemy(600, 500, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+    Enemy(200, 450, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+    Enemy(700, 350, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
+    Enemy(1100, 280, r"C:\Users\Demir\Documents\GitHub\Demir\images\brackeys_platformer_assets\brackeys_platformer_assets\sprites\knight.png"),
 ]
+
+# Dropped weapons for ammo refresh (placed randomly or after specific enemies)
+
+
+# Add any decorative elements or background changes if desired
 
 weapons = []
 
@@ -110,6 +120,7 @@ while run:
         platform.draw(screen, camera)
 
     for enemy in enemies[:]:
+        enemy.apply_gravity(platforms)
         enemy.shoot()
         enemy.update_projectiles(player)
         enemy.draw_projectiles(screen, camera)
