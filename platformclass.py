@@ -12,7 +12,7 @@ class Platform:
         # Adjust position for the camera and draw the platform image
         adjusted_rect = camera.apply(self.rect)
 
-        pygame.draw.rect(screen, (255, 0, 0), adjusted_rect, 1)  # Draws the rect in red for debugging
+        # pygame.draw.rect(screen, (255, 0, 0), adjusted_rect, 1)  # Draws the rect in red for debugging
 
         screen.blit(self.image, adjusted_rect)
 

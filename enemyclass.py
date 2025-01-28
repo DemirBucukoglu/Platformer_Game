@@ -82,7 +82,7 @@ class Enemy:
         adjusted_h = camera.apply(self.healthbar)
 
         # Draw the enemy
-        pygame.draw.rect(screen, (255, 0, 0), adjusted_enemies, 1)  # Optional hitbox
+        # pygame.draw.rect(screen, (255, 0, 0), adjusted_enemies, 1)  # Optional hitbox
         screen.blit(self.image, adjusted_enemies)
 
         # Draw the health bar background (gray)
