@@ -2,7 +2,7 @@ import pygame
 from weaponclss import Weapon
 
 class Player:
-    def __init__(self, x, y, image_path, health=500, ammo=7000):
+    def __init__(self, x, y, image_path, health=10, ammo=30):
         self.image = pygame.image.load(image_path).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect = pygame.Rect(self.rect.x, self.rect.y, 70, 70)
